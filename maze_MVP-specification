@@ -1,114 +1,46 @@
-MAZE GAME MVP SPECIFICATION
+## Progress
 
-ARCHITECTURE
-The architecture of  the  Maze Game involves several components:
-1. Client Side (SDL2 Window)
-Main Window: The primary display where the game is rendered.
-Event Handler: Captures user inputs (keyboard and mouse).
-2. Core Engine
-Raycasting Engine: Handles the rendering of walls, ground, and ceiling using raycasting techniques
-Game Logic: Manages player movement, collision detection, and interactions.
-3. Data Flow
-User Input: Captured by the event handler.
-Game Logic: Processes input and updates player position.
-Raycasting Engine: Calculates visible scene and renders it to the window.
-Display Output: The rendered scene is displayed to the user.
-Diagram:
+### Rating: 7/10
 
-   ↓ 
+**Explanation**:  
+This week, we've made considerable progress in developing the core functionality of our project, particularly with the implementation of the SDL setup and the initial maze rendering. The project is moving forward, but there have been challenges with the SDL rendering in a Docker environment, which required more time and troubleshooting. As a result, some planned features are still incomplete.
 
-  	    ↓ 
-                                               →                                                        → 
+### Completed Parts:
+- The basic structure and initialization of SDL.
+- Initial maze structure and map rendering logic.
+- Integration of the maze data into the rendering loop.
 
-APIS AND METHODS
-1. SDL2 APIs:
-SDL_Init: Initializes the SDL library.
-SDL_CreateWindow: Creates the main game window.
-SDL_CreateRenderer: Creates a rendering context.
-SDL_PollEvent: Polls for user input events.
-SDL_RenderClear: Clears the current rendering target.
-SDL_RenderPresent: Updates the screen with any rendering performed since the previous call.
-SDL_DestroyWindow: Destroys the window and frees resources.
-SDL_Quit: Cleans up all initialized subsystems.
-2. Custom Methods:
-initialize_game(): Sets up the game environment, including SDL initialization.
-load_map(): Loads the maze map from an array or file.
-handle_input(): Processes keyboard and mouse inputs.
-update_game(): Updates the game state based on user inputs.
-render_scene(): Uses raycasting to render the 3D scene.
-check_collision(): Detects and handles collisions with walls.
-3. Data Modelling
-Section: Data Model
-1. Entities and Relationships:
-Player
-`position`: (x, y) coordinates
- `direction`: Angle or vector indicating the viewing direction
- `speed`: Movement speed
+### Incomplete Parts:
+- Proper configuration of SDL in Docker, especially getting the rendering to work.
+- Optimizing the rendering logic to account for screen size and FOV adjustments.
+- Fine-tuning the raycasting algorithm to accurately represent walls and distances.
 
-Map
-`grid`: 2D array representing walls (1) and empty spaces (0)
-4. User Stories
-Section: User Stories
-As a player, I want to see a 3D representation of the maze, so that I can navigate through it.
-Acceptance Criteria: The game window displays a 3D view of the maze using raycasting.
-2. As a player, I want to rotate my view using the keyboard, so that I can look around in the maze.
-Acceptance Criteria:The player can use the left and right arrow keys to rotate the view.
-3. As a player, I want to move forward and backward, so that I can explore the maze.
-Acceptance Criteria: The player can use the W and S keys to move forward and backward.
-4. As a player, I want to collide with walls, so that I cannot pass through them.
-Acceptance Criteria: The player cannot move through walls and will stop or slide upon collision.
-5. As a developer, I want to load the maze from a file, so that I can easily change the map layout.
-Acceptance Criteria: The game can load a maze map from a file specified at runtime.
+---
 
+## Challenges
 
+### Technical Challenge (200+ words):
 
- 5. Mockups
-Section: Mockups
-1. Main Game Window:
-Display area with a 3D view of the maze.
-Simple HUD showing player's position and direction (optional for MVP).
+The most difficult technical challenge encountered this week was getting SDL to work properly within a Docker environment. Initially, we encountered errors with the X11 display server, which is typically used for rendering graphics in Linux environments. These errors prevented the application from initializing the SDL window and renderer properly, leading to the failure of our application.
 
-Example Mockup:
-                          [Main Game Window]
+To troubleshoot, we attempted to use alternative video drivers like `dummy`, but this only resulted in further errors, specifically that SDL could not find a matching render driver. This issue highlighted the complexities of running graphical applications inside containers, which do not have direct access to the host's display hardware by default.
 
+After extensive research, it became clear that our current Docker setup might not be fully compatible with the requirements of SDL's rendering pipeline, especially for 3D rendering. To work around this issue, we are considering alternatives, such as setting up a virtual framebuffer or running the application directly on the host machine during development, which would avoid the constraints of Docker's environment.
 
+This challenge has also underscored the need to better understand the interaction between SDL, the host environment, and Docker's limitations, which is crucial for future projects that involve graphical rendering within containers.
 
+### Non-Technical Challenge (200+ words):
 
+One of the most significant non-technical challenges this week was time management and team communication. With multiple tasks at hand and the need for frequent troubleshooting, it became difficult to maintain a steady pace of progress. Coordination between team members also proved challenging, especially when dealing with unexpected technical roadblocks that required more time to solve than initially anticipated.
 
- 6. Implementation Plan 
-1. Initialize SDL2 and Create Window:
-Set up SDL2.
-Create the main game window and renderer.
-2. Implement Raycasting:
-Create the raycasting engine to render walls based on player’s position and direction.
-3. Add Player Movement and Rotation:
-Implement basic movement (forward, backward) and rotation (left, right).
+Another non-technical challenge was dealing with the frustration of repeated failures, particularly when solutions that seemed promising did not work as expected. This affected team morale and made it harder to stay focused on finding solutions. To address this, we had to reassess our approach to problem-solving, ensuring that we remained patient and methodical, even in the face of setbacks.
 
-4. Implement Collision Detection:
-Prevent the player from moving through walls.
-5. Load Map from File:
-Create a parser to load the maze map from a file.
-6. Testing and Debugging:
-Thoroughly test all functionalities and fix any bugs.
+We also realized the importance of clear and regular communication, especially when dealing with complex technical issues that require input from multiple team members. By establishing more frequent check-ins and using collaborative tools like shared documents and messaging apps, we were able to improve our coordination and ensure that everyone was on the same page.
 
-7. Coding Style and Documentation
-Section: Coding Style and Documentation
-1. Follow Betty Style Guidelines:
-Ensure all code follows the specified coding style guidelines.
-Split code into functions and files as per guidelines.
-2. Comment Code:
-Add comments to explain the functionality of each function and important code blocks.
-3. Documentation:
-Create README file with instructions on how to compile and run the game.
-Document all functions and data structures used in the code.
+---
 
-8. Additional Features (Future Work)
+## Screenshots
 
-1. Textures:
-Add textures to walls for more visual appeal.
-2. Enemies:
-Introduce enemies that the player must avoid or defeat.
-3. Weapon System:
-Implement a basic weapon system for the player to interact with enemies.
-4. Map Display:
-Add a mini-map display to help the player navigate.
+1. **Maze Structure Rendering**: A screenshot showing the initial maze layout rendered by SDL.
+2. **Error Log**: A screenshot of the terminal showing the SDL initialization error in Docker, illustrating the technical challenges faced.
+
